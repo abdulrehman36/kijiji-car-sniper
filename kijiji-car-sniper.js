@@ -12,6 +12,7 @@ const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 let lastSeenId = null;
 
 // === SCRAPER ===
+// === SCRAPER ===
 async function fetchListings() {
     const res = await fetch(SEARCH_URL, { headers: { 'User-Agent': 'Mozilla/5.0' } });
     const html = await res.text();
@@ -21,18 +22,25 @@ async function fetchListings() {
     $('a[data-testid="listing-link"]').each((_, element) => {
         const title = $(element).text().trim();
         const url = $(element).attr('href');
+
+        // get price for this listing
+        const price = $(element)
+            .closest('div[class*="sc-"]')
+            .find('[data-testid="autos-listing-price"]')
+            .text()
+            .trim();
+
         ads.push({
             id: url.split('/').pop(),
             title,
+            price,
             url: url.startsWith('http') ? url : 'https://www.kijiji.ca' + url,
-
         });
     });
 
-
-
     return ads;
 }
+
 
 // === LOOP ===
 let firstRun = true;
@@ -41,12 +49,12 @@ async function checkForNewListings() {
     try {
         const ads = await fetchListings();
 
-        console.log("Scraped ads:", ads);
+        // console.log("Scraped ads:", ads);
 
         if (firstRun) {
             if (ads.length > 0) {
                 lastSeenId = ads[0].id;  // Initialize as second ad
-                console.log(`Initialized lastSeenId as ${lastSeenId}`);
+                // console.log(`Initialized lastSeenId as ${lastSeenId}`);
             }
             firstRun = false;
             return;
@@ -56,7 +64,7 @@ async function checkForNewListings() {
             const ad = ads[i];
             if (ad.id === lastSeenId) break;
 
-            const message = `New Kijiji Listing!\n\n${ad.title}\n🔗${ad.url}`;
+            const message = `New Car Listing!\n\n'Item:' ${ad.title}\n'Price:' ${ad.price}\n🔗${ad.url}`;
 
             await bot.telegram.sendMessage(TELEGRAM_CHAT_ID, message);
         }
