@@ -18,14 +18,14 @@ async function fetchListings() {
     const $ = cheerio.load(html);
 
     const ads = [];
-    $('a[data-testid="rich-card-link"]').each((_, element) => {
+    $('a[data-testid="listing-link"]').each((_, element) => {
         const title = $(element).text().trim();
         const url = $(element).attr('href');
-
         ads.push({
             id: url.split('/').pop(),
             title,
-            url: 'https://www.kijiji.ca' + url,
+            url: url.startsWith('http') ? url : 'https://www.kijiji.ca' + url,
+
         });
     });
 
