@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  kijiji-samsung-bot:
+    build: .
+    env_file:
+      - .env
+    restart: unless-stopped
