@@ -7,4 +7,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["node", "kijiji-samsung-bot.js"]
+CMD ["node", "kijiji-car-sniper.js"]

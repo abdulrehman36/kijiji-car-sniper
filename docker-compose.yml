@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  kijiji-samsung-bot:
+  kijiji-car-bot:
     build: .
     env_file:
       - .env

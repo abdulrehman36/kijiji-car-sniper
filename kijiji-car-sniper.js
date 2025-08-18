@@ -5,7 +5,8 @@ const { Telegraf } = require('telegraf');
 // === CONFIG ===
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const SEARCH_URL = `https://www.kijiji.ca/b-cell-phone/saskatoon/${encodeURIComponent(process.env.KEYWORDS)}/k0c${process.env.CATEGORY_ID}l${process.env.LOCATION_ID}?sort=dateDesc`;
+const SEARCH_URL = `https://www.kijiji.ca/b-cars-trucks/saskatoon/c${process.env.CATEGORY_ID}l${process.env.LOCATION_ID}?for-sale-by=ownr&price=0__13000&sort=dateDesc&view=list`;
+
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 let lastSeenId = null;
@@ -43,15 +44,15 @@ async function checkForNewListings() {
         console.log("Scraped ads:", ads);
 
         if (firstRun) {
-            if (ads.length > 1) {
-                lastSeenId = ads[1].id;  // Initialize as second ad
+            if (ads.length > 0) {
+                lastSeenId = ads[0].id;  // Initialize as second ad
                 console.log(`Initialized lastSeenId as ${lastSeenId}`);
             }
             firstRun = false;
             return;
         }
 
-        for (let i = 1; i < ads.length; i++) {
+        for (let i = 0; i < ads.length; i++) {
             const ad = ads[i];
             if (ad.id === lastSeenId) break;
 
@@ -61,9 +62,9 @@ async function checkForNewListings() {
         }
 
 
-        // After sending messages, update to the real newest (which is the second ad)
-        if (ads.length > 1) {
-            lastSeenId = ads[1].id;  // Always track the second ad as newest
+        // After sending messages, update to the real newest 
+        if (ads.length > 0) {
+            lastSeenId = ads[0].id;  // Always track the first ad as newest
         }
 
     } catch (err) {
@@ -77,7 +78,7 @@ async function checkForNewListings() {
 async function startLoop() {
     while (true) {
         await checkForNewListings();
-        const delay = (240 + Math.random() * 180) * 1000;
+        const delay = 60 * 1000; // 1 minute in ms
 
         console.log(`Waiting ${(delay / 1000).toFixed(0)} seconds until next check...`);
         await new Promise(resolve => setTimeout(resolve, delay));
