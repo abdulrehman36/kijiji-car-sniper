@@ -5,13 +5,13 @@ const { Telegraf } = require('telegraf');
 // === CONFIG ===
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const SEARCH_URL = `https://www.kijiji.ca/b-cars-trucks/saskatoon/c${process.env.CATEGORY_ID}l${process.env.LOCATION_ID}?for-sale-by=ownr&price=0__13000&sort=dateDesc&view=list`;
+const SEARCH_URL = `https://www.kijiji.ca/b-cars-trucks/saskatoon/c${process.env.CATEGORY_ID}l${process.env.LOCATION_ID}?for-sale-by=ownr&price=0__15000&sort=dateDesc&view=list`;
 
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 let lastSeenId = null;
 
-// === SCRAPER ===
+
 // === SCRAPER ===
 async function fetchListings() {
     const res = await fetch(SEARCH_URL, { headers: { 'User-Agent': 'Mozilla/5.0' } });
@@ -56,7 +56,7 @@ async function checkForNewListings() {
                 lastSeenId = ads[0].id;  // Initialize as second ad
                 // console.log(`Initialized lastSeenId as ${lastSeenId}`);
             }
-            firstRun = false;
+            firstRun = false; 
             return;
         }
 
