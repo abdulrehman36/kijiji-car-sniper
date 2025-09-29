@@ -82,11 +82,11 @@ async function checkForNewListings() {
 
 
 
-// === RANDOM INTERVAL ===
+// === RANDOM INTERVAL LOOP (1–4 minutes) ===
 async function startLoop() {
     while (true) {
         await checkForNewListings();
-        const delay = 60 * 1000; // 1 minute in ms
+        const delay = Math.floor(Math.random() * (4 - 1 + 1) * 60 * 1000) + (1 * 60 * 1000);
 
         console.log(`Waiting ${(delay / 1000).toFixed(0)} seconds until next check...`);
         await new Promise(resolve => setTimeout(resolve, delay));
