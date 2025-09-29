@@ -49,12 +49,12 @@ async function checkForNewListings() {
     try {
         const ads = await fetchListings();
 
-        // console.log("Scraped ads:", ads);
+        console.log("Scraped ads:", ads);
 
         if (firstRun) {
             if (ads.length > 0) {
                 lastSeenId = ads[0].id;  // Initialize as second ad
-                // console.log(`Initialized lastSeenId as ${lastSeenId}`);
+                console.log(`Initialized lastSeenId as ${lastSeenId}`);
             }
             firstRun = false; 
             return;
