@@ -12,26 +12,23 @@ const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 let lastSeenId = null;
 
 
-// === SCRAPER ===
 async function fetchListings() {
     const res = await fetch(SEARCH_URL, { headers: { 'User-Agent': 'Mozilla/5.0' } });
     const html = await res.text();
     const $ = cheerio.load(html);
 
     const ads = [];
-    $('a[data-testid="listing-link"]').each((_, element) => {
-        const title = $(element).text().trim();
-        const url = $(element).attr('href');
 
-        // get price for this listing
-        const price = $(element)
-            .closest('div[class*="sc-"]')
-            .find('[data-testid="autos-listing-price"]')
-            .text()
-            .trim();
+    // Only get ads from the real search results (skip spotlight/top-listings)
+    $('ul[data-testid="srp-search-list"] section[data-testid="listing-card"]').each((_, element) => {
+        const parent = $(element);
+
+        const title = parent.find('[data-testid="listing-title"]').text().trim();
+        const url = parent.find('a[data-testid="listing-link"]').attr('href');
+        const price = parent.find('[data-testid="autos-listing-price-container"]').text().trim();
 
         ads.push({
-            id: url.split('/').pop(),
+            id: parent.attr('data-listingid'),
             title,
             price,
             url: url.startsWith('http') ? url : 'https://www.kijiji.ca' + url,
