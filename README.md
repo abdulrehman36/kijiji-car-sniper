@@ -95,5 +95,14 @@ Each new listing is also saved automatically to a MySQL database
 Below is an example of what the bot message looks like on Telegram:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/abdulrehman36/kijiji-car-sniper/blob/main/assets/IMG_5917.jpg" alt="Telegram Notification Example" width="350"/>
+  <img src="https://raw.githubusercontent.com/abdulrehman36/kijiji-car-sniper/main/assets/IMG_5917.jpg" alt="Telegram Notification Example" width="350"/>
+</p>
+
+## Example Database Entries
+
+Each new listing is also stored in the MySQL database.  
+Below is an example of what the `listings` table looks like:
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/abdulrehman36/Kijiji-IPhone-Scraper/main/assets/IMG_5914.jpg" alt="Telegram Notification Example" width="350"/>
 </p>
