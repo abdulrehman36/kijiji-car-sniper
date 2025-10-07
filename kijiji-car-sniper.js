@@ -1,6 +1,7 @@
 require('dotenv').config();
 const cheerio = require('cheerio');
 const { Telegraf } = require('telegraf');
+const db = require('./db');
 
 // === CONFIG ===
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -37,6 +38,13 @@ async function fetchListings() {
 
     return ads;
 }
+function saveListing(listing) {
+    const { title, price } = listing;
+    const sql = 'INSERT INTO listings (title, price) VALUES (?, ?)';
+    db.query(sql, [title, price], err => {
+        if (err) console.error('DB insert error:', err.message);
+    });
+}
 
 
 // === LOOP ===
@@ -64,6 +72,7 @@ async function checkForNewListings() {
             const message = `New Car Listing!\n\n'Item:' ${ad.title}\n'Price:' ${ad.price}\n🔗${ad.url}`;
 
             await bot.telegram.sendMessage(TELEGRAM_CHAT_ID, message);
+            saveListing(ad);
         }
 
 
