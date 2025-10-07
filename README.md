@@ -104,5 +104,14 @@ Each new listing is also stored in the MySQL database.
 Below is an example of what the `listings` table looks like:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/abdulrehman36/Kijiji-IPhone-Scraper/main/assets/IMG_5914.jpg" alt="Telegram Notification Example" width="350"/>
+  <img src="https://raw.githubusercontent.com/abdulrehman36/kijiji-car-sniper/main/assets/Screenshot%202025-10-07%20at%205.10.40%E2%80%AFPM.png" alt="Database Example" width="500"/>
 </p>
+
+## Tech Stack
+- **Node.js** – Core runtime environment for executing JavaScript on the server.  
+- **Cheerio** – For parsing and extracting data from Kijiji HTML pages.  
+- **Telegraf** – For interacting with the Telegram Bot API.  
+- **MySQL (Aiven Cloud)** – For storing all scraped car listings in a managed cloud database.  
+- **mysql2** – Node.js driver used to connect and query the MySQL database.  
+- **dotenv** – For securely loading environment variables from a `.env` file.  
+- **Docker** – For containerizing and running the scraper in a consistent environment across systems.
