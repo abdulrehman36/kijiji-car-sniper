@@ -3,9 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const mysql = require('mysql2');
 
-console.log('Connecting to MySQL...');
-console.log('Host:', process.env.DB_HOST);
-console.log('Database:', process.env.DB_NAME);
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
